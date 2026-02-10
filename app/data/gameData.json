@@ -1,0 +1,26 @@
+{
+  "unit-f": {
+    "title": "Le Son [f]",
+    "baseSounds": ["fe", "fa", "fi", "fo", "fu"],
+    "colors": ["#e6c229","#f17105","#d11149","#6610f2","#1a8fe3"],
+    "words": [
+      { "text": "la fête", "sound": "fe" }, { "text": "finir", "sound": "fi" }, { "text": "la folio", "sound": "fo" }, { "text": "la fée", "sound": "fe" },
+      { "text": "la farine", "sound": "fa" }, { "text": "la file", "sound": "fi" }, { "text": "la forêt", "sound": "fo" }, { "text": "le sofa", "sound": "fa" },
+      { "text": "la rafale", "sound": "fa" }, { "text": "la fusée", "sound": "fu" }, { "text": "la forme", "sound": "fo" }, { "text": "fier", "sound": "fi" },
+      { "text": "la fille", "sound": "fi" }, { "text": "le défi", "sound": "fi" }, { "text": "fermer", "sound": "fe" }, { "text": "la fumée", "sound": "fu" },
+      { "text": "la ferme", "sound": "fe" }, { "text": "le futur", "sound": "fu" }, { "text": "la façon", "sound": "fa" }, { "text": "le fauteuil", "sound": "fo" }
+    ]
+  },
+  "unit-l": {
+    "title": "Le Son [l]",
+    "baseSounds": ["la", "le", "li", "lo", "lu"],
+    "colors": ["#bbdef0", "#00a6a6", "#efca08", "#f49f0a", "#f08700"],
+    "words": [
+      { "text": "la lune", "sound": "lu" }, { "text": "le lapin", "sound": "la" }, { "text": "la lime", "sound": "li" }, { "text": "la limace", "sound": "li" },
+      { "text": "le lit", "sound": "li" }, { "text": "la ligne", "sound": "li" }, { "text": "le livre", "sound": "li" }, { "text": "la loupe", "sound": "lo" },
+      { "text": "le loup", "sound": "lo" }, { "text": "le loto", "sound": "lo" }, { "text": "la lampe", "sound": "la" }, { "text": "la salade", "sound": "la" },
+      { "text": "le lion", "sound": "li" }, { "text": "lire", "sound": "li" }, { "text": "lave", "sound": "la" }, { "text": "laver", "sound": "la" },
+      { "text": "limite", "sound": "li" }, { "text": "salut", "sound": "lu" }, { "text": "lola", "sound": "lo" }, { "text": "lulu", "sound": "lu" }
+    ]
+  }
+}

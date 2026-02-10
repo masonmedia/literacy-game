@@ -1,0 +1,23 @@
+/* app/assets/main.css */
+:root {
+  --apple-bg: #ffffff;
+  --apple-text: #1d1d1f;
+  --apple-gray: #f5f5f7;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: var(--apple-bg);
+  color: var(--apple-text);
+}
+
+.squircle {
+  border-radius: 22% / 22%; /* Approx Apple Squircle */
+  overflow: hidden;
+}
+
+.apple-blur {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
