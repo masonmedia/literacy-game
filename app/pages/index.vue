@@ -1239,7 +1239,35 @@ import gameData from '@/data/gameData.json';
 const phoneticMap = { 
   'fe': 'fait',
   // 've': 'veux'  // Maps to the "veh" sound for the French voice engine
-  've': 'vè'  // Maps to the "veh" sound for the French voice engine
+  've': 'vè',  // Maps to the "veh" sound for the French voice engine,
+  
+  // --- ENGLISH (The "Crisp T" & "Flat A" Fix) ---
+  // Using double letters forces the engine to articulate the ending 
+  'et': 'ett',
+  'eg': 'egg',
+  'it': 'itt',
+  'ot': 'ott. ',
+  'og': 'ogg',
+  'ut': 'utt',
+  'cut': 'cutt',
+  'nut': 'nutt',
+  'ug': 'ugg',
+  'en': 'n',
+  'ip': 'ipp',
+
+  // The 'an' fix: "aann" or "ann" prevents the "von" sound
+  'an': 'ann',  
+  'van': 'vann', 
+  'can': 'cann',
+  'ap': 'app',
+
+  // Word-specific overrides (No dashes!)
+  'cat': 'catt',
+  'bat': 'batt',
+  'mat': 'matt',
+  'hat': 'hatt',
+  'rat': 'ratt',
+  'wag': 'wagg . '
 };
 
 // --- STATE ---
@@ -1282,14 +1310,54 @@ const initGame = () => {
     }));
 };
 
+// const playSound = (text) => {
+//   window.speechSynthesis.cancel();
+//   const speechText = phoneticMap[text] || text;
+//   const utterance = new SpeechSynthesisUtterance(speechText);
+//   utterance.lang = 'fr-FR';
+//   utterance.rate = 0.7;
+//   window.speechSynthesis.speak(utterance);
+// };
+
+// best current voice sound version
 const playSound = (text) => {
   window.speechSynthesis.cancel();
+  
+  // 1. Get the phonetic version (e.g., 'van' -> 'va-nh')
   const speechText = phoneticMap[text] || text;
   const utterance = new SpeechSynthesisUtterance(speechText);
-  utterance.lang = 'fr-FR';
-  utterance.rate = 0.7;
+  
+  // 2. Set Language
+  // If the unit says 'en-US', we'll try to 'upgrade' it to 'en-CA' for the True T
+  let targetLang = activeUnit.value.lang || 'fr-FR';
+  if (targetLang === 'en-US') targetLang = 'en-CA';
+  
+  utterance.lang = targetLang;
+  
+  // 3. Tuning for Literacy
+  // Pitch 1.1 removes the "bored" US male drone and makes it sound like a teacher
+  utterance.pitch = 1.1; 
+  utterance.rate = 0.6; // Slightly slower to ensure 'va-nh' is fully articulated
+  
   window.speechSynthesis.speak(utterance);
 };
+
+
+// lang toggle
+
+// const selectedLang = ref('fr-FR'); // Default filter
+
+const selectedLang = ref('fr'); // We only need the first two letters now
+
+const filteredUnits = computed(() => {
+  return Object.entries(gameData).filter(([key, unit]) => {
+    // Get the first two letters of the unit's lang (e.g., 'en-CA' -> 'en')
+    const unitLangBase = (unit.lang || 'fr-FR').substring(0, 2);
+    
+    // Compare 'en' to 'en' or 'fr' to 'fr'
+    return unitLangBase === selectedLang.value;
+  });
+});
 
 // --- DYNAMIC ARC LOGIC ---
 const handleMatch = (word, targetSound, event = null) => {
@@ -1375,7 +1443,7 @@ watch(score, (n) => {
     </Transition>
 
     <Transition name="fade">
-      <div v-if="gameState === 'menu'" class="screen menu-page p-5 overflow-auto h-100">
+      <!-- <div v-if="gameState === 'menu'" class="screen menu-page p-5 overflow-auto h-100">
         <div class="container max-width-md">
           <h2 class="display-5 fw-bold mb-5 text-center">Choisissez un niveau</h2>
           <div class="row g-4 justify-content-center">
@@ -1390,7 +1458,32 @@ watch(score, (n) => {
             </div>
           </div>
         </div>
+      </div> -->
+      <div v-if="gameState === 'menu'" class="screen menu-page p-5 overflow-auto h-100">
+  <div class="container max-width-md">
+    
+    <div class="d-flex justify-content-center mb-5">
+      <div class="ios-segmented-control shadow-sm" style="padding: 10px;">
+        <button @click="selectedLang = 'fr'" :class="{ active: selectedLang === 'fr' }">Français 🇫🇷</button>
+        <button @click="selectedLang = 'en'" :class="{ active: selectedLang === 'en' }">English 🇨🇦</button>
       </div>
+    </div>
+
+    <h2 class="display-5 fw-bold mb-4 text-center">Niveaux / Levels</h2>
+    
+    <div class="row g-4 justify-content-center">
+      <div v-for="([key, unit]) in filteredUnits" :key="key" class="col-md-6 col-lg-5">
+        <button @click="selectUnit(key)" class="unit-selection-card shadow-sm w-100">
+          <div class="unit-icon" :style="{ backgroundColor: unit.colors[0] }">{{ unit.baseSounds[0] }}</div>
+          <div class="text-start">
+            <div class="fw-bold fs-4">{{ unit.title }}</div>
+            <div class="text-secondary small">Sons: {{ unit.baseSounds.join(', ') }}</div>
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
     </Transition>
 
     <Transition name="fade">

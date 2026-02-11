@@ -160,5 +160,70 @@
       { "text": "la ville", "sound": "vi" },
       { "text": "les vacances", "sound": "va" }
     ]
+  },
+  "en-short-a": {
+    "title": "Short 'a' Sounds",
+    "lang": "en-CA",
+    "baseSounds": ["at", "an", "ag", "ap", "ad"],
+    "colors": ["#FF5733", "#2BD94A", "#3357FF", "#F333FF", "#FF33A8"],
+    "words": [
+      { "text": "cat", "sound": "at" }, { "text": "bat", "sound": "at" }, { "text": "mat", "sound": "at" }, { "text": "rat", "sound": "at" },
+      { "text": "fan", "sound": "an" }, { "text": "pan", "sound": "an" }, { "text": "can", "sound": "an" }, { "text": "van", "sound": "an" },
+      { "text": "bag", "sound": "ag" }, { "text": "tag", "sound": "ag" }, { "text": "wag", "sound": "ag" }, { "text": "rag", "sound": "ag" },
+      { "text": "cap", "sound": "ap" }, { "text": "map", "sound": "ap" }, { "text": "tap", "sound": "ap" }, { "text": "lap", "sound": "ap" },
+      { "text": "dad", "sound": "ad" }, { "text": "sad", "sound": "ad" }, { "text": "mad", "sound": "ad" }, { "text": "pad", "sound": "ad" }
+    ]
+  },
+  "en-short-e": {
+    "title": "Short 'e' Sounds",
+    "lang": "en-CA",
+    "baseSounds": ["et", "en", "ed", "eg", "ell"],
+    "colors": ["#4CC9F0", "#4361EE", "#3A0CA3", "#7209B7", "#F72585"],
+    "words": [
+      { "text": "net", "sound": "et" }, { "text": "wet", "sound": "et" }, { "text": "jet", "sound": "et" }, { "text": "pet", "sound": "et" },
+      { "text": "hen", "sound": "en" }, { "text": "ten", "sound": "en" }, { "text": "pen", "sound": "en" }, { "text": "men", "sound": "en" },
+      { "text": "bed", "sound": "ed" }, { "text": "red", "sound": "ed" }, { "text": "fed", "sound": "ed" }, { "text": "wed", "sound": "ed" },
+      { "text": "leg", "sound": "eg" }, { "text": "peg", "sound": "eg" }, { "text": "beg", "sound": "eg" }, { "text": "egg", "sound": "eg" },
+      { "text": "bell", "sound": "ell" }, { "text": "tell", "sound": "ell" }, { "text": "sell", "sound": "ell" }, { "text": "well", "sound": "ell" }
+    ]
+  },
+  "en-short-i": {
+    "title": "Short 'i' Sounds",
+    "lang": "en-CA",
+    "baseSounds": ["it", "in", "ip", "ig", "id"],
+    "colors": ["#00F5D4", "#00BBF9", "#9B5DE5", "#F15BB5", "#FEE440"],
+    "words": [
+      { "text": "sit", "sound": "it" }, { "text": "hit", "sound": "it" }, { "text": "kit", "sound": "it" }, { "text": "pit", "sound": "it" },
+      { "text": "bin", "sound": "in" }, { "text": "fin", "sound": "in" }, { "text": "tin", "sound": "in" }, { "text": "win", "sound": "in" },
+      { "text": "zip", "sound": "ip" }, { "text": "lip", "sound": "ip" }, { "text": "dip", "sound": "ip" }, { "text": "tip", "sound": "ip" },
+      { "text": "pig", "sound": "ig" }, { "text": "big", "sound": "ig" }, { "text": "wig", "sound": "ig" }, { "text": "dig", "sound": "ig" },
+      { "text": "kid", "sound": "id" }, { "text": "lid", "sound": "id" }, { "text": "hid", "sound": "id" }, { "text": "bid", "sound": "id" }
+    ]
+  },
+  "en-short-o": {
+    "title": "Short 'o' Sounds",
+    "lang": "en-CA",
+    "baseSounds": ["ot", "op", "og", "ob", "ox"],
+    "colors": ["#FF9F1C", "#FFBF69", "#66D3AC", "#789694", "#2EC4B6"],
+    "words": [
+      { "text": "pot", "sound": "ot" }, { "text": "hot", "sound": "ot" }, { "text": "dot", "sound": "ot" }, { "text": "cot", "sound": "ot" },
+      { "text": "hop", "sound": "op" }, { "text": "mop", "sound": "op" }, { "text": "top", "sound": "op" }, { "text": "pop", "sound": "op" },
+      { "text": "dog", "sound": "og" }, { "text": "log", "sound": "og" }, { "text": "jog", "sound": "og" }, { "text": "hog", "sound": "og" },
+      { "text": "bob", "sound": "ob" }, { "text": "job", "sound": "ob" }, { "text": "sob", "sound": "ob" }, { "text": "rob", "sound": "ob" },
+      { "text": "box", "sound": "ox" }, { "text": "fox", "sound": "ox" }, { "text": "pox", "sound": "ox" }, { "text": "oxen", "sound": "ox" }
+    ]
+  },
+  "en-short-u": {
+    "title": "Short 'u' Sounds",
+    "lang": "en-CA",
+    "baseSounds": ["ut", "un", "ug", "ub", "um"],
+    "colors": ["#D9ED92", "#B5E48C", "#99D98C", "#76C893", "#52B69A"],
+    "words": [
+      { "text": "nut", "sound": "ut" }, { "text": "cut", "sound": "ut" }, { "text": "hut", "sound": "ut" }, { "text": "gut", "sound": "ut" },
+      { "text": "sun", "sound": "un" }, { "text": "run", "sound": "un" }, { "text": "fun", "sound": "un" }, { "text": "bun", "sound": "un" },
+      { "text": "bug", "sound": "ug" }, { "text": "mug", "sound": "ug" }, { "text": "hug", "sound": "ug" }, { "text": "rug", "sound": "ug" },
+      { "text": "tub", "sound": "ub" }, { "text": "rub", "sound": "ub" }, { "text": "sub", "sound": "ub" }, { "text": "cub", "sound": "ub" },
+      { "text": "gum", "sound": "um" }, { "text": "hum", "sound": "um" }, { "text": "sum", "sound": "um" }, { "text": "yum", "sound": "um" }
+    ]
   }
 }
