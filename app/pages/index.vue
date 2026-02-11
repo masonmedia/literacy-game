@@ -1234,7 +1234,13 @@ const onDragStart = (e, word) => { e.dataTransfer.setData('wordId', word.id); };
 import { ref, watch, computed } from 'vue';
 import gameData from '@/data/gameData.json';
 
-const phoneticMap = { 'fe': 'fait' };
+// const phoneticMap = { 'fe': 'fait' };
+
+const phoneticMap = { 
+  'fe': 'fait',
+  // 've': 'veux'  // Maps to the "veh" sound for the French voice engine
+  've': 'vè'  // Maps to the "veh" sound for the French voice engine
+};
 
 // --- STATE ---
 const gameState = ref('landing');
