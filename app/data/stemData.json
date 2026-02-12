@@ -1,0 +1,28 @@
+{
+  "unit-pattern-1": {
+    "id": "unit-pattern-1",
+    "title": "Repeating Patterns",
+    "description": "Find the shape that completes the core pattern.",
+    "lang": "en-CA",
+    "challenges": [
+      { "sequence": ["🔴", "🔵", "🔴", "🔵"], "answer": "🔴", "options": ["🔴", "🔵", "🟡"] },
+      { "sequence": ["🔼", "⏹️", "🔼", "⏹️"], "answer": "🔼", "options": ["🔼", "⏹️", "⏺️"] },
+      { "sequence": ["🐱", "🐶", "🐱", "🐶"], "answer": "🐱", "options": ["🐱", "🐶", "🐭"] },
+      { "sequence": ["🍎", "🍎", "🍌", "🍎", "🍎"], "answer": "🍌", "options": ["🍎", "🍌", "🍇"] },
+      { "sequence": ["☀️", "🌙", "⭐", "☀️", "🌙"], "answer": "⭐", "options": ["☀️", "🌙", "⭐"] }
+    ]
+  },
+  "unit-coding-1": {
+    "id": "unit-coding-1",
+    "title": "Intro to Coding",
+    "description": "Follow the directional arrows to reach the goal.",
+    "lang": "en-CA",
+    "challenges": [
+      { "sequence": ["➡️", "➡️", "⬆️", "➡️", "➡️"], "answer": "⬆️", "options": ["⬆️", "⬇️", "➡️"] },
+      { "sequence": ["⬆️", "⬆️", "⬇️", "⬆️", "⬆️"], "answer": "⬇️", "options": ["⬆️", "⬇️", "⬅️"] },
+      { "sequence": ["⬅️", "➡️", "⬅️", "➡️"], "answer": "⬅️", "options": ["⬅️", "➡️", "⬆️"] },
+      { "sequence": ["🚀", "➡️", "🚀", "➡️"], "answer": "🚀", "options": ["🚀", "➡️", "🛸"] },
+      { "sequence": ["⬇️", "⬇️", "➡️", "⬇️", "⬇️"], "answer": "➡️", "options": ["➡️", "⬅️", "⬇️"] }
+    ]
+  }
+}

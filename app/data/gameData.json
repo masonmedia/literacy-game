@@ -98,7 +98,7 @@
       { "text": "le numéro", "sound": "nu" },
       { "text": "nettoyer", "sound": "ne" },
       { "text": "le piano", "sound": "no" },
-      { "text": "la mine", "sound": "mi" },
+      { "text": "la mine", "sound": "ni" },
       { "text": "notre", "sound": "no" },
       { "text": "la natte", "sound": "na" },
       { "text": "nager", "sound": "na" },
@@ -137,7 +137,7 @@
   "unit-v": {
     "title": "Le Son [v]",
     "baseSounds": ["ve", "va", "vi", "vo", "vu"],
-    "colors": ["#c78283","#9f5f67","#d7bea8","#b49286","#744253"],
+    "colors": ["#264653", "#2a9d8f", "#e9c46a", "#f4a261", "#e76f51"],
     "words": [
       { "text": "la vache", "sound": "va" },
       { "text": "vite", "sound": "vi" },
