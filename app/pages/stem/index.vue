@@ -368,8 +368,10 @@ onMounted(() => { window.addEventListener('keydown', (e) => {
 </style> -->
 
 
-<!-- v5 -->
 
+
+<!-- v5 -->
+<!-- 
 <template>
     <div v-if="stemReady" :style="{ backgroundColor: stemConfig.bg }"
         class="vh-100 d-flex flex-column p-3 p-md-4 overflow-hidden ios-bg">
@@ -849,4 +851,124 @@ onMounted(() => {
         transform: translateY(110vh) translateX(var(--drift)) rotate(720deg);
         opacity: 0;
     }
-}</style>
+}</style> -->
+
+
+<template>
+  <div class="vh-100 d-flex flex-column p-4 ios-bg" style="background-color: #F2F2F7;">
+    
+    <nav class="row align-items-center flex-shrink-0 mb-5">
+      <div class="col-3">
+        <NuxtLink to="/" class="nav-btn-ios border-ios rounded-pill shadow-sm text-decoration-none">← Home</NuxtLink>
+      </div>
+      <div class="col-6 text-center">
+        <h1 class="fw-black text-dark m-0" style="font-size: 2.5rem; letter-spacing: -1px;">STEM Labs</h1>
+      </div>
+      <div class="col-3 d-flex justify-content-end">
+        <div class="status-pill shadow-sm">v2.0 Ready</div>
+      </div>
+    </nav>
+
+    <div class="flex-grow-1 d-flex align-items-center justify-content-center">
+      <div class="container">
+        <div class="row g-4 justify-content-center">
+          
+          <div class="col-12 col-md-4">
+            <NuxtLink to="/stem/coding-missions" class="mission-card-link">
+              <div class="mission-card border-ios shadow-sm bg-white rounded-5 p-4 text-center h-100">
+                <div class="icon-circle bg-primary mb-3 mx-auto">🐸</div>
+                <h3 class="fw-black text-dark">Coding</h3>
+                <p class="text-secondary small fw-bold">Logic & Sequencing</p>
+              </div>
+            </NuxtLink>
+          </div>
+
+          <div class="col-12 col-md-4">
+            <NuxtLink to="/stem/patterns" class="mission-card-link">
+              <div class="mission-card border-ios shadow-sm bg-white rounded-5 p-4 text-center h-100">
+                <div class="icon-circle bg-warning mb-3 mx-auto">🍎</div>
+                <h3 class="fw-black text-dark">Patterns</h3>
+                <p class="text-secondary small fw-bold">Predicting Sequences</p>
+              </div>
+            </NuxtLink>
+          </div>
+
+          <div class="col-12 col-md-4">
+            <NuxtLink to="/stem/addition-mission" class="mission-card-link">
+              <div class="mission-card border-ios shadow-sm bg-white rounded-5 p-4 text-center h-100">
+                <div class="icon-circle bg-success mb-3 mx-auto">➕</div>
+                <h3 class="fw-black text-dark">Addition</h3>
+                <p class="text-secondary small fw-bold">Make to 10 Games</p>
+              </div>
+            </NuxtLink>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <footer class="text-center py-4 opacity-50">
+      <span class="fw-bold small text-uppercase ls-wide">Choose a mission to begin</span>
+    </footer>
+  </div>
+</template>
+
+<style scoped>
+.fw-black { font-weight: 900; }
+.ls-wide { letter-spacing: 2px; }
+.border-ios { border: 4px solid #E5E5EA !important; }
+
+.nav-btn-ios { 
+  background: white; 
+  padding: 12px 25px; 
+  font-weight: 700; 
+  color: #007AFF; 
+  display: inline-block;
+}
+
+.status-pill {
+  background: #E5E5EA;
+  padding: 8px 20px;
+  border-radius: 50px;
+  font-weight: 800;
+  font-size: 0.8rem;
+  color: #8E8E93;
+}
+
+.mission-card-link {
+  text-decoration: none;
+  display: block;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.mission-card-link:hover {
+  transform: scale(1.05);
+}
+
+.mission-card-link:active {
+  transform: scale(0.95);
+}
+
+.mission-card {
+  transition: box-shadow 0.2s;
+}
+
+.mission-card:hover {
+  box-shadow: 0 20px 40px rgba(0,0,0,0.05) !important;
+}
+
+.icon-circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  box-shadow: inset 0 -5px 0 rgba(0,0,0,0.1);
+}
+
+.bg-primary { background-color: #007AFF !important; }
+.bg-warning { background-color: #FFCC00 !important; }
+.bg-success { background-color: #34C759 !important; }
+</style>
