@@ -1234,12 +1234,11 @@ const onDragStart = (e, word) => { e.dataTransfer.setData('wordId', word.id); };
 import { ref, watch, computed } from 'vue';
 import gameData from '@/data/gameData.json';
 
-// const phoneticMap = { 'fe': 'fait' };
-
 const phoneticMap = { 
   'fe': 'fait',
   // 've': 'veux'  // Maps to the "veh" sound for the French voice engine
   've': 'vè',  // Maps to the "veh" sound for the French voice engine,
+  'vo': 'voh',
   
   // --- ENGLISH (The "Crisp T" & "Flat A" Fix) ---
   // Using double letters forces the engine to articulate the ending 
@@ -1390,7 +1389,7 @@ const handleMatch = (word, targetSound, event = null) => {
       score.value++;
       showSuccessOverlay.value = true;
       spawnConfetti(45);
-      setTimeout(() => { showSuccessOverlay.value = false; }, 1200);
+      setTimeout(() => { showSuccessOverlay.value = false; }, 1500);
     }, 600);
 
     selectedWord.value = null;
@@ -1540,7 +1539,15 @@ watch(score, (n) => {
         </div>
         <Transition name="ios-pop-fade">
           <div v-if="showSuccessOverlay" class="status-overlay">
-            <div class="pill-ui yellow-pill shadow-lg">Ya Bud!</div>
+            <!-- <div class="thumbs-up-icon">👍</div>
+            <div class="pill-ui yellow-pill shadow-lg">Ya Bud!</div> -->
+                  <div class="victory-stack">
+                    <div class="pill-ui-yellow shadow-lg text-center d-flex flex-column align-items-center gap-2">
+                        <div class="thumbs-up-icon">👍</div>
+                        <div class="fw-black">Ya Bud!</div>
+                    </div>
+                </div>
+
           </div>
         </Transition>
         <Transition name="ios-pop-fade">
@@ -1579,6 +1586,12 @@ watch(score, (n) => {
 </template>
 
 <style scoped>
+
+.thumbs-up-icon {
+    font-size: 5rem;
+    padding: 0;
+}
+
 /* INSERTING YOUR SPECIFIC STYLE EDITS */
 .ios-container {
   background-color: #F2F2F7;
@@ -1827,8 +1840,49 @@ watch(score, (n) => {
   }
 }
 
-/* UTILS */
+/* Ya Bud */
+
+/* Victory Stack */
+/* Fixed CSS */
+.victory-stack {
+    display: flex;
+    flex-direction: column;
+    /* Assigned correctly now */
+    align-items: center;
+    gap: 0;
+}
+
+.thumbs-up-icon {
+    font-size: 5rem;
+    padding: 0;
+    margin: -20px 0 -20px;
+}
+
 .status-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 3000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.3);
+    pointer-events: none;
+}
+
+.pill-ui-yellow {
+    font-weight: 900;
+    padding: 30px 50px;
+    border-radius: 60px;
+    border: 10px solid white;
+    background: #FFD60A;
+    color: #007AFF;
+    font-size: 3.5rem;
+    transform: rotate(-5deg);
+    animation: hop 0.5s infinite alternate ease-in-out;
+}
+
+/* UTILS */
+/* .status-overlay {
   position: fixed;
   inset: 0;
   z-index: 2500;
@@ -1836,7 +1890,7 @@ watch(score, (n) => {
   align-items: center;
   justify-content: center;
   pointer-events: none;
-}
+} */
 
 .bg-glass {
   background: rgba(242, 242, 247, 0.7);

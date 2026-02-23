@@ -774,7 +774,7 @@ watch(activeTheme, () => {
 
 
 <!-- v4 -->
- <script setup>
+<script setup>
 import { ref, onMounted, watch } from 'vue';
 
 // --- STATE ---
@@ -814,12 +814,12 @@ const generateQuestion = () => {
   const currentPool = themes[activeTheme.value];
   const types = ['AB', 'ABC', 'AAB'];
   const type = types[Math.floor(Math.random() * types.length)];
-  
+
   const flattened = [];
   currentPool.forEach((item, i) => {
     item.colors.forEach(c => flattened.push({ ...item, color: c, id: `${activeTheme.value}-${i}-${c}` }));
   });
-  
+
   const sel = [...flattened].sort(() => 0.5 - Math.random());
   let seq = [], ans = null;
 
@@ -860,10 +860,10 @@ const checkAnswer = (choice) => {
     roundsCompleted.value++;
     showSuccessOverlay.value = true;
     spawnConfetti(45);
-    
+
     setTimeout(() => {
       showSuccessOverlay.value = false;
-      setTimeout(() => { 
+      setTimeout(() => {
         isCorrect.value = false;
         currentQuestion.value = generateQuestion();
       }, 800);
@@ -889,17 +889,20 @@ watch(activeTheme, () => {
 
 <template>
   <div class="ios-container vh-100 overflow-hidden position-relative d-flex flex-column p-3 p-md-4">
-    
+
     <nav class="row align-items-center mb-3 flex-shrink-0">
       <div class="col-3">
-        <NuxtLink to="/" class="nav-btn-ios shadow-sm text-decoration-none">Menu</NuxtLink>
+        <!-- <NuxtLink to="/" class="nav-btn-ios shadow-sm text-decoration-none">Menu</NuxtLink> -->
+        <NuxtLink to="/stem"
+          class="nav-btn-ios border-ios rounded-pill text-decoration-none text-center fw-black shadow-sm">← Back
+        </NuxtLink>
       </div>
       <div class="col-6 text-center d-flex justify-content-center gap-2">
         <select v-model="activeTheme" class="form-select theme-dropdown rounded-5" aria-label="Default select example">
-            <option selected>Open this select menu</option>
-            <option value="shapes">Shapes</option>
-            <option value="emoji">Emojis</option>
-            <option value="numbers">Numbers</option>
+          <option selected>Open this select menu</option>
+          <option value="shapes">Shapes</option>
+          <option value="emoji">Emojis</option>
+          <option value="numbers">Numbers</option>
         </select>
 
         <!-- <select v-model="activeTheme" class="theme-dropdown shadow-sm">
@@ -915,22 +918,26 @@ watch(activeTheme, () => {
     </nav>
 
     <div class="flex-grow-1 d-flex flex-column overflow-hidden">
-      <div v-if="mounted" class="card border-0 rounded-5 shadow-sm p-3 p-md-4 h-100 d-flex flex-column justify-content-between border-ios">
-        
-        <div class="pattern-stage flex-grow-1 d-flex align-items-center justify-content-center bg-ios-system rounded-5 px-3 mb-3">
+      <div v-if="mounted"
+        class="card border-0 rounded-5 shadow-sm p-3 p-md-4 h-100 d-flex flex-column justify-content-between border-ios">
+
+        <div
+          class="pattern-stage flex-grow-1 d-flex align-items-center justify-content-center bg-ios-system rounded-5 px-3 mb-3">
           <div class="d-flex justify-content-center flex-wrap gap-2 gap-md-4 w-100">
-            <div v-for="(item, idx) in currentQuestion.sequence" :key="'seq-' + idx" 
-                 class="pattern-card bg-white rounded-4 d-flex align-items-center justify-content-center animate-pop">
-              <span v-if="activeTheme !== 'shapes'" class="pattern-text" :style="{ color: item.color }">{{ item.label }}</span>
+            <div v-for="(item, idx) in currentQuestion.sequence" :key="'seq-' + idx"
+              class="pattern-card bg-white rounded-4 d-flex align-items-center justify-content-center animate-pop">
+              <span v-if="activeTheme !== 'shapes'" class="pattern-text" :style="{ color: item.color }">{{ item.label
+              }}</span>
               <svg v-else viewBox="0 0 24 24" class="svg-shape">
                 <path :d="item.path" :fill="item.color" />
               </svg>
             </div>
 
             <div class="pattern-card rounded-4 transition-all d-flex align-items-center justify-content-center"
-                 :class="isCorrect ? 'bg-white' : 'border-dashed-ios bg-transparent'">
+              :class="isCorrect ? 'bg-white' : 'border-dashed-ios bg-transparent'">
               <template v-if="isCorrect">
-                <span v-if="activeTheme !== 'shapes'" class="pattern-text animate-pop" :style="{ color: currentQuestion.answer.color }">{{ currentQuestion.answer.label }}</span>
+                <span v-if="activeTheme !== 'shapes'" class="pattern-text animate-pop"
+                  :style="{ color: currentQuestion.answer.color }">{{ currentQuestion.answer.label }}</span>
                 <svg v-else viewBox="0 0 24 24" class="svg-shape animate-pop">
                   <path :d="currentQuestion.answer.path" :fill="currentQuestion.answer.color" />
                 </svg>
@@ -945,11 +952,11 @@ watch(activeTheme, () => {
         <div class="options-bar pt-3 border-top flex-shrink-0">
           <div class="row g-2 g-md-3 justify-content-center">
             <div v-for="(opt, idx) in currentQuestion.options" :key="'opt-' + idx" class="col-4 col-md-2">
-              <button @click="checkAnswer(opt)" 
-                      class="btn-ios-option bg-white border-0 rounded-4 transition-active d-flex align-items-center justify-content-center"
-                      :class="{ 'animate-shake': wrongId === opt.id }"
-                      :disabled="isCorrect">
-                <span v-if="activeTheme !== 'shapes'" class="option-text" :style="{ color: opt.color }">{{ opt.label }}</span>
+              <button @click="checkAnswer(opt)"
+                class="btn-ios-option bg-white border-0 rounded-4 transition-active d-flex align-items-center justify-content-center"
+                :class="{ 'animate-shake': wrongId === opt.id }" :disabled="isCorrect">
+                <span v-if="activeTheme !== 'shapes'" class="option-text" :style="{ color: opt.color }">{{ opt.label
+                }}</span>
                 <svg v-else viewBox="0 0 24 24" class="svg-option">
                   <path :d="opt.path" :fill="opt.color" />
                 </svg>
@@ -975,7 +982,6 @@ watch(activeTheme, () => {
 </template>
 
 <style scoped>
-
 .ios-container {
   background-color: #F2F2F7;
   font-family: -apple-system, system-ui, sans-serif;
@@ -983,8 +989,9 @@ watch(activeTheme, () => {
   width: 100vw;
 }
 
-.border-ios { border: 1px solid #E5E5EA !important; }
-.rounded-5 { border-radius: 40px !important; }
+.rounded-5 {
+  border-radius: 40px !important;
+}
 
 /* NAV ELEMENTS */
 .nav-btn-ios {
@@ -994,6 +1001,22 @@ watch(activeTheme, () => {
   border-radius: 15px;
   color: #007AFF;
   font-weight: 700;
+}
+
+.border-ios {
+  border: 4px solid #E5E5EA !important;
+}
+.nav-btn-ios {
+  border-radius: 50px;
+  padding: 10px 20px;
+  font-weight: 900;
+  border: 4px solid white;
+  cursor: pointer;
+}
+
+.nav-btn-ios {
+  background: white;
+  color: #007AFF;
 }
 
 .theme-dropdown {
@@ -1035,7 +1058,7 @@ watch(activeTheme, () => {
   aspect-ratio: 1/1;
   z-index: 1;
   /* Darker Shadow for main pattern cards */
-  filter: drop-shadow(0px 0px 12px rgba(0,0,0,0.2));
+  filter: drop-shadow(0px 0px 12px rgba(0, 0, 0, 0.2));
 }
 
 .btn-ios-option {
@@ -1045,7 +1068,7 @@ watch(activeTheme, () => {
   transition: transform 0.1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   border: none;
   /* Lighter Shadow for option buttons */
-  filter: drop-shadow(0px 0px 6px rgba(0,0,0,0.1));
+  filter: drop-shadow(0px 0px 6px rgba(0, 0, 0, 0.1));
 }
 
 /* TEXT RATIOS */
@@ -1061,23 +1084,45 @@ watch(activeTheme, () => {
   font-weight: 900;
 }
 
-.svg-shape { width: 75%; height: 75%; pointer-events: none; }
-.svg-option { width: 65%; height: 65%; pointer-events: none; }
+.svg-shape {
+  width: 75%;
+  height: 75%;
+  pointer-events: none;
+}
+
+.svg-option {
+  width: 65%;
+  height: 65%;
+  pointer-events: none;
+}
 
 /* FEEDBACK ANIMATIONS */
 @keyframes shake-left-right {
-  0%, 100% { transform: translateX(0); }
-  20%, 60% { transform: translateX(-10px); }
-  40%, 80% { transform: translateX(10px); }
+
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  20%,
+  60% {
+    transform: translateX(-10px);
+  }
+
+  40%,
+  80% {
+    transform: translateX(10px);
+  }
 }
 
 .animate-shake {
   animation: shake-left-right 0.4s ease-in-out;
-  background-color: #ffe5e5 !important; /* Slight red tint on error */
+  background-color: #ffe5e5 !important;
+  /* Slight red tint on error */
 }
 
-.transition-active:active:not(.animate-shake) { 
-  transform: scale(0.9); 
+.transition-active:active:not(.animate-shake) {
+  transform: scale(0.9);
 }
 
 .border-dashed-ios {
@@ -1128,9 +1173,19 @@ watch(activeTheme, () => {
 }
 
 @keyframes fall-gravity {
-  0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-  60% { opacity: 1; }
-  100% { transform: translateY(115vh) rotate(720deg); opacity: 0; }
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+
+  60% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(115vh) rotate(720deg);
+    opacity: 0;
+  }
 }
 
 /* TRANSITIONS */
@@ -1148,11 +1203,33 @@ watch(activeTheme, () => {
 }
 
 @keyframes ios-pop {
-  0% { transform: scale(0.5) rotate(-10deg); opacity: 0; }
-  100% { transform: scale(1) rotate(-2deg); opacity: 1; }
+  0% {
+    transform: scale(0.5) rotate(-10deg);
+    opacity: 0;
+  }
+
+  100% {
+    transform: scale(1) rotate(-2deg);
+    opacity: 1;
+  }
 }
 
-.animate-pop { animation: ios-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
-.pulse { animation: pulse-anim 1.5s infinite; }
-@keyframes pulse-anim { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
-</style>
+.animate-pop {
+  animation: ios-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.pulse {
+  animation: pulse-anim 1.5s infinite;
+}
+
+@keyframes pulse-anim {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.3;
+  }
+}</style>

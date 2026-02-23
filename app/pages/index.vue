@@ -48,8 +48,8 @@
   <div class="min-vh-100 bg-ios-system d-flex align-items-center py-5">
     <div class="container px-4">
       <header class="text-center mb-5 animate-slide-up">
-        <h1 class="ios-display fw-bold mb-1">Kid Learning Hub</h1>
-        <p class="text-secondary fw-medium fs-5">Pick an adventure</p>
+        <h1 class="ios-display fw-bold mb-1">Learning Hub</h1>
+        <p class="text-secondary fw-medium fs-5">Choose your adventure</p>
       </header>
       
       <div class="row g-4 justify-content-center">
@@ -59,7 +59,7 @@
               <div class="ios-glyph-box bg-blue-soft mb-4">
                 <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#007AFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path></svg>
               </div>
-              <h2 class="h3 fw-bold text-dark mb-2">Literacy</h2>
+              <h2 class="h3 fw-bold text-dark mb-2">LITERACY</h2>
               <p class="text-secondary mb-4 small">Reading & Phonics</p>
               <div class="btn btn-ios-blue rounded-pill px-5 py-2 fw-bold py-2">Open</div>
             </div>
@@ -73,7 +73,7 @@
                 <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#34C759" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
               </div>
               <h2 class="h3 fw-bold text-dark mb-2">STEM</h2>
-              <p class="text-secondary mb-4 small">Patterns & Coding</p>
+              <p class="text-secondary mb-4 small">Patterns, Coding, and Math</p>
               <div class="btn btn-ios-green rounded-pill px-5 py-2 fw-bold py-2">Open</div>
             </div>
           </NuxtLink>
