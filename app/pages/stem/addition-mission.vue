@@ -1218,7 +1218,7 @@ onUnmounted(() => window.removeEventListener('keydown', handleKeyDown));
 
         <nav class="row align-items-center flex-shrink-0 mb-4 px-2">
             <div class="col-4 d-flex align-items-center gap-2">
-                <NuxtLink to="/stem" class="nav-btn-ios border-ios rounded-pill text-decoration-none text-center fw-black shadow-sm">← Back</NuxtLink>
+                <NuxtLink to="/stem" class="nav-btn-ios border-ios rounded-pill text-decoration-none text-center fw-bold shadow-sm">← Back</NuxtLink>
                 <button @click="toggleTarget" class="nav-btn-target shadow-sm fw-black">TARGET = {{ targetSum }}</button>
                 <button @click="toggleSolveMode" class="nav-btn-yellow shadow-sm fw-black">Solve for ?</button>
             </div>

@@ -2007,6 +2007,8 @@ watch(score, (n) => {
 
     <Transition name="fade">
       <div v-if="gameState === 'menu'" class="screen menu-page p-5 overflow-auto h-100">
+        <NuxtLink to="/" class="nav-btn-ios border-ios rounded-pill text-decoration-none text-center fw-black shadow-sm">← Home</NuxtLink>
+
         <div class="container max-width-md">
           <div class="d-flex justify-content-center mb-5">
             <div class="ios-segmented-control shadow-sm menu-lang-toggle" style="padding: 10px;">

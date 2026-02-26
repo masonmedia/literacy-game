@@ -1,6 +1,6 @@
 {
   "unit-l": {
-    "title": "Le Son [l]",
+    "title": "Le Son 'L'",
     "baseSounds": ["le", "la", "li", "lo", "lu"],
     "colors": ["#8fbfda", "#00a6a6", "#efca08", "#f49f0a", "#f08700"],
     "words": [
@@ -27,7 +27,7 @@
     ]
   },
   "unit-s": {
-    "title": "Le Son [s]",
+    "title": "Le Son 'S'",
     "baseSounds": ["se", "sa", "si", "so", "su"],
     "colors": ["#ff8360", "#e8e288", "#7dce82", "#3cdbd3", "#00BEB4"],
     "words": [
@@ -54,7 +54,7 @@
     ]
   },
   "unit-m": {
-    "title": "Le Son [m]",
+    "title": "Le Son 'M'",
     "baseSounds": ["ma", "mi", "mo", "mu"],
     "colors": ["#b5a886", "#4C1E4F", "#fa7e61", "#f44174"],
     "words": [
@@ -81,7 +81,7 @@
     ]
   },
   "unit-n": {
-    "title": "Le Son [n]",
+    "title": "Le Son 'N'",
     "baseSounds": ["ne", "na", "ni", "no", "nu"],
     "colors": ["#031a6b", "#033860", "#087ca7", "#004385", "#05b2dc"],
     "words": [
@@ -108,7 +108,7 @@
     ]
   },
   "unit-f": {
-    "title": "Le Son [f]",
+    "title": "Le Son 'F'",
     "baseSounds": ["fe", "fa", "fi", "fo", "fu"],
     "colors": ["#e6c229", "#f17105", "#d11149", "#6610f2", "#1a8fe3"],
     "words": [
@@ -135,7 +135,7 @@
     ]
   },
   "unit-v": {
-    "title": "Le Son [v]",
+    "title": "Le Son 'V'",
     "baseSounds": ["ve", "va", "vi", "vo", "vu"],
     "colors": ["#264653", "#2a9d8f", "#e9c46a", "#f4a261", "#e76f51"],
     "words": [
