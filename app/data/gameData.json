@@ -161,6 +161,33 @@
       { "text": "les vacances", "sound": "va" }
     ]
   },
+  "unit-r": {
+    "title": "Le Son 'R'",
+    "baseSounds": ["re", "ra", "ri", "ro", "ru"],
+    "colors": ["#f72585","#7209b7","#3a0ca3","#4361ee","#4cc9f0"],
+    "words": [
+      { "text": "le robot", "sound": "ro" },
+      { "text": "le macaroni", "sound": "ro" },
+      { "text": "le riz", "sound": "ri" },
+      { "text": "la raison", "sound": "ra" },
+      { "text": "la radio", "sound": "ra" },
+      { "text": "la robe", "sound": "ro" },
+      { "text": "rire", "sound": "ri" },
+      { "text": "le rat", "sound": "ra" },
+      { "text": "la rue", "sound": "ru" },
+      { "text": "la mère", "sound": "re" },
+      { "text": "le père", "sound": "re" },
+      { "text": "rude", "sound": "ru" },
+      { "text": "la rime", "sound": "ri" },
+      { "text": "le rêve", "sound": "re" },
+      { "text": "rapide", "sound": "ra" },
+      { "text": "le repas", "sound": "re" },
+      { "text": "rester", "sound": "re" },
+      { "text": "ranger", "sound": "ra" },
+      { "text": "rien", "sound": "ri" },
+      { "text": "rire", "sound": "ri" }
+    ]
+  },
   "en-short-a": {
     "title": "Short 'a' Sounds",
     "lang": "en-CA",
