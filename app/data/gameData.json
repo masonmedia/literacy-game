@@ -188,6 +188,33 @@
       { "text": "rire", "sound": "ri" }
     ]
   },
+  "unit-b/t": {
+    "title": "Les Sons 'B/T'",
+    "baseSounds": ["b", "t"],
+    "colors": ["#5AAA95","#087F8C"],
+    "words": [
+      { "text": "la tête", "sound": "t" },
+      { "text": "le tapis", "sound": "t" },
+      { "text": "belle", "sound": "b" },
+      { "text": "le pirate", "sound": "t" },
+      { "text": "l'arbre", "sound": "b" },
+      { "text": "la banane", "sound": "b" },
+      { "text": "l'abeille", "sound": "b" },
+      { "text": "la bête", "sound": "b" },
+      { "text": "maintenant", "sound": "t" },
+      { "text": "le balai", "sound": "b" },
+      { "text": "la table", "sound": "t" },
+      { "text": "timide", "sound": "t" },
+      { "text": "les bottes", "sound": "b" },
+      { "text": "la bouteille", "sound": "b" },
+      { "text": "beaucoup", "sound": "b" },
+      { "text": "le bouton", "sound": "b" },
+      { "text": "toujours", "sound": "t" },
+      { "text": "très", "sound": "t" },
+      { "text": "combien", "sound": "b" },
+      { "text": "trop", "sound": "t" }
+    ]
+  },
   "en-short-a": {
     "title": "Short 'a' Sounds",
     "lang": "en-CA",
