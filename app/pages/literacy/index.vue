@@ -2808,11 +2808,11 @@ const phoneticMap = {
 };
 
 const gameState = ref('landing');
-const gameMode = ref('match');
+const gameMode = ref('spell');
 const activeUnitKey = ref('unit-f');
 const gameWords = ref([]);
 const score = ref(0);
-const isClickMode = ref(false);
+const isClickMode = ref(true);
 const selectedWord = ref(null);
 const showSuccessOverlay = ref(false);
 const confettiParticles = ref([]);

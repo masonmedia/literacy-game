@@ -904,6 +904,16 @@ onMounted(() => {
           </div>
           
           <div class="col-12 col-md-4">
+            <NuxtLink to="/stem/math-grid" class="mission-card-link">
+              <div class="mission-card border-ios shadow-sm bg-white rounded-5 p-4 text-center h-100">
+                <div class="icon-circle bg-danger mb-3 mx-auto">🔢</div>
+                <h3 class="fw-black text-dark">Math Grid</h3>
+                <p class="text-secondary small fw-bold">Solve equation grids</p>
+              </div>
+            </NuxtLink>
+          </div>
+
+          <div class="col-12 col-md-4">
             <NuxtLink to="/stem/counting" class="mission-card-link">
               <div class="mission-card border-ios shadow-sm bg-white rounded-5 p-4 text-center h-100">
                 <div class="icon-circle bg-info mb-3 mx-auto">
