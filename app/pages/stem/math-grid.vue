@@ -6,13 +6,11 @@ const gridColumns = ref(8);
 const gridRows = ref(5);
 const grid = ref([]);
 const answers = ref({});
-const showSuccessOverlay = ref(false);
-const confettiParticles = ref([]);
 const solved = ref(new Set());
 const gameWon = ref(false);
 
 // Settings
-const operationMode = ref('mix'); // 'add', 'subtract', 'mix'
+const operationMode = ref('add'); // 'add', 'subtract', 'mix'
 const targetTotal = ref(10); // 10, 20, 30
 const solveFor = ref('first'); // 'first', 'second', 'sum'
 const practiceNumber = ref(null); // 1-10 or null for random
@@ -93,6 +91,7 @@ const generateGrid = () => {
   solved.value = new Set();
   gameWon.value = false;
   cellStates.value = {};
+  suggestedCellId.value = 'cell-0';
 
   for (let i = 0; i < totalCells.value; i++) {
     const eq = generateEquation();
@@ -131,13 +130,19 @@ const checkAnswer = (cellId) => {
     solved.value.add(cellId);
     answers.value[cellId] = cell.correctAnswer;
 
+    // Move suggested cell to the next row
+    if (cellId === suggestedCellId.value) {
+      const currentIndex = parseInt(cellId.split('-')[1], 10);
+      const nextIndex = currentIndex + gridColumns.value;
+      if (nextIndex < totalCells.value) {
+        suggestedCellId.value = `cell-${nextIndex}`;
+      }
+    }
+
     if (solved.value.size === totalCells.value) {
       gameWon.value = true;
       score.value += 10;
-      showSuccessOverlay.value = true;
-      spawnConfetti(150);
       setTimeout(() => {
-        showSuccessOverlay.value = false;
         setTimeout(generateGrid, 600);
       }, 2000);
     } else {
@@ -175,17 +180,6 @@ const handleInput = (cellId, value) => {
   }
 };
 
-const spawnConfetti = (count) => {
-  const colors = ['#007AFF', '#FFD60A', '#FF2D55', '#34C759', '#AF52DE'];
-  confettiParticles.value = Array.from({ length: count }).map(() => ({
-    id: Math.random(),
-    x: Math.random() * 100,
-    size: Math.random() * 15 + 10,
-    color: colors[Math.floor(Math.random() * colors.length)],
-    duration: 2.5 + Math.random() * 2,
-    drift: (Math.random() - 0.5) * 200
-  }));
-};
 
 const resetGame = () => {
   generateGrid();
@@ -205,9 +199,14 @@ const handleKeyDown = (e, cellId) => {
 };
 
 const showPracticeMenu = ref(false);
+const suggestedCellId = ref('cell-0');
 
 onMounted(() => {
   generateGrid();
+  setTimeout(() => {
+    const firstInput = document.querySelector('input[data-cell="cell-0"]');
+    if (firstInput) firstInput.focus();
+  }, 100);
 });
 
 onUnmounted(() => {
@@ -218,15 +217,17 @@ onUnmounted(() => {
 <template>
   <div class="vh-100 d-flex flex-column p-3 p-md-4 ios-bg" style="background-color: #F2F2F7;">
     <!-- Header Nav -->
-    <nav class="nav-container flex-shrink-0 mb-3">
-      <div class="nav-left">
+    <nav class="row align-items-center flex-shrink-0 mb-3 px-2">
+      <div class="col-4 d-flex align-items-center gap-2">
         <NuxtLink to="/stem" class="nav-btn-ios border-ios rounded-pill text-decoration-none text-center fw-bold shadow-sm">← Back</NuxtLink>
+        <button @click="targetTotal = (targetTotal === 10 ? 20 : targetTotal === 20 ? 30 : 10); resetGame()" class="nav-btn-target shadow-sm fw-bold">TARGET = {{ targetTotal }}</button>
+        <button @click="solveFor = (solveFor === 'first' ? 'second' : solveFor === 'second' ? 'sum' : 'first'); resetGame()" class="nav-btn-yellow shadow-sm fw-bold">Solve for ?</button>
       </div>
 
-      <div class="nav-center">
-        <button @click="operationMode = 'add'; resetGame()" class="mode-pill" :class="{ active: operationMode === 'add' }">+</button>
-        <button @click="operationMode = 'subtract'; resetGame()" class="mode-pill" :class="{ active: operationMode === 'subtract' }">−</button>
-        <button @click="operationMode = 'mix'; resetGame()" class="mode-pill" :class="{ active: operationMode === 'mix' }">Mix</button>
+      <div class="col-4 d-flex justify-content-center gap-1">
+        <button @click="operationMode = 'add'; resetGame()" class="mode-pill px-4 fs-6" :class="{ active: operationMode === 'add' }">+</button>
+        <button @click="operationMode = 'subtract'; resetGame()" class="mode-pill px-4 fs-6" :class="{ active: operationMode === 'subtract' }">−</button>
+        <button @click="operationMode = 'mix'; resetGame()" class="mode-pill mb-0 px-4" :class="{ active: operationMode === 'mix' }">Mix</button>
 
         <div class="practice-menu-wrapper">
           <button @click="showPracticeMenu = !showPracticeMenu" class="practice-select shadow-sm">
@@ -239,9 +240,7 @@ onUnmounted(() => {
         </div>
       </div>
 
-      <div class="nav-right">
-        <button @click="solveFor = (solveFor === 'first' ? 'second' : solveFor === 'second' ? 'sum' : 'first'); resetGame()" class="nav-btn-yellow shadow-sm fw-black">Solve for ?</button>
-        <button @click="targetTotal = (targetTotal === 10 ? 20 : targetTotal === 20 ? 30 : 10); resetGame()" class="nav-btn-target shadow-sm fw-black">TARGET = {{ targetTotal }}</button>
+      <div class="col-4 d-flex align-items-center justify-content-end gap-2">
         <div class="score-pill shadow-sm">{{ score }} ⭐</div>
       </div>
     </nav>
@@ -249,8 +248,9 @@ onUnmounted(() => {
     <!-- Game Board -->
     <div class="flex-grow-1 d-flex align-items-center justify-content-center overflow-auto">
       <div class="math-grid-container">
-        <div class="grid-8x4">
-          <div v-for="cell in grid" :key="cell.id" class="grid-cell" :class="cellStates[cell.id]">
+        <div class="row row-cols-8 g-2 w-100">
+          <div v-for="cell in grid" :key="cell.id" class="col">
+            <div class="grid-cell" :class="[cellStates[cell.id], { 'suggested-pulse-start': cell.id === suggestedCellId && !solved.has(cell.id) && suggestedCellId === 'cell-0', 'suggested-pulse-next': cell.id === suggestedCellId && !solved.has(cell.id) && suggestedCellId !== 'cell-0' }]">
             <div class="equation-box">
               <!-- Display equation -->
               <div class="equation-display">
@@ -302,34 +302,12 @@ onUnmounted(() => {
                 </span>
               </div>
             </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Success Overlay -->
-    <Transition name="ios-pop-fade">
-      <div v-if="showSuccessOverlay" class="status-overlay">
-        <div class="pill-ui-yellow shadow-lg">Ya Bud!</div>
-      </div>
-    </Transition>
-
-    <!-- Confetti -->
-    <div class="confetti-holder">
-      <div
-        v-for="p in confettiParticles"
-        :key="p.id"
-        class="particle"
-        :style="{
-          left: p.x + '%',
-          width: p.size + 'px',
-          height: p.size + 'px',
-          backgroundColor: p.color,
-          animationDuration: p.duration + 's',
-          '--drift': p.drift + 'px'
-        }"
-      />
-    </div>
   </div>
 </template>
 
@@ -340,29 +318,6 @@ onUnmounted(() => {
 
 .border-ios {
   border: 4px solid #E5E5EA !important;
-}
-
-.nav-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 0 0.5rem;
-}
-
-.nav-left,
-.nav-right {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-}
-
-.nav-center {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-  justify-content: center;
-  flex: 1;
 }
 
 .nav-btn-ios {
@@ -425,18 +380,21 @@ onUnmounted(() => {
   height: 100%;
   padding: 0;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: stretch;
+  justify-content: stretch;
 }
 
-.grid-8x4 {
-  display: grid;
-  grid-template-columns: repeat(8, 1fr);
-  gap: 8px;
+.math-grid-container .row {
   width: 100%;
   height: 100%;
-  max-height: 100%;
-  max-width: 100%;
+  flex-wrap: wrap;
+  align-content: stretch;
+}
+
+.math-grid-container .col {
+  display: flex;
+  align-items: stretch;
+  flex: 0 0 calc(12.5% - 2px);
 }
 
 .grid-cell {
@@ -449,6 +407,8 @@ onUnmounted(() => {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   transition: all 0.3s ease;
   border: 3px solid transparent;
+  width: 100%;
+  height: 100%;
 }
 
 .grid-cell.correct {
@@ -466,6 +426,42 @@ onUnmounted(() => {
   0%, 100% { transform: translateX(0); }
   25% { transform: translateX(-8px); }
   75% { transform: translateX(8px); }
+}
+
+@keyframes pulse-border-success {
+  0%, 100% {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), 0 0 0 3px rgba(52, 199, 89, 0.3);
+    border-color: #34C759;
+  }
+  50% {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), 0 0 0 8px rgba(52, 199, 89, 0.1);
+    border-color: #34C759;
+  }
+}
+
+@keyframes pulse-border-secondary {
+  0%, 100% {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), 0 0 0 3px rgba(108, 117, 125, 0.2);
+    border-color: rgba(108, 117, 125, 0.25);
+  }
+  50% {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), 0 0 0 8px rgba(108, 117, 125, 0.08);
+    border-color: rgba(108, 117, 125, 0.25);
+  }
+}
+
+.grid-cell.suggested-pulse-start {
+  background: rgba(209, 250, 229, 0.7);
+  border-color: #34C759;
+  border-width: 3px;
+  animation: pulse-border-success 2s ease-in-out infinite;
+}
+
+.grid-cell.suggested-pulse-next {
+  background: rgba(233, 236, 239, 0.5);
+  border-color: rgba(108, 117, 125, 0.25);
+  border-width: 3px;
+  animation: pulse-border-secondary 2s ease-in-out infinite;
 }
 
 .equation-box {
@@ -539,70 +535,6 @@ onUnmounted(() => {
   border-color: #FF3B30;
 }
 
-/* Success overlay */
-.status-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 3000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0, 0, 0, 0.3);
-  pointer-events: none;
-}
-
-.pill-ui-yellow {
-  font-weight: 900;
-  padding: 25px 50px;
-  border-radius: 60px;
-  border: 10px solid white;
-  background: #FFD60A;
-  color: #007AFF;
-  font-size: 4rem;
-  transform: rotate(-5deg);
-  animation: hop 0.5s infinite alternate ease-in-out;
-}
-
-@keyframes hop {
-  from { transform: rotate(-5deg) translateY(0); }
-  to { transform: rotate(-5deg) translateY(-20px); }
-}
-
-/* Confetti */
-.confetti-holder {
-  position: fixed;
-  top: -50px;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  pointer-events: none;
-  z-index: 2999;
-}
-
-.particle {
-  position: absolute;
-  border-radius: 3px;
-  animation: fall linear forwards;
-}
-
-@keyframes fall {
-  to {
-    transform: translateY(110vh) translateX(var(--drift)) rotate(720deg);
-    opacity: 0;
-  }
-}
-
-/* Transitions */
-.ios-pop-fade-enter-active,
-.ios-pop-fade-leave-active {
-  transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.ios-pop-fade-enter-from,
-.ios-pop-fade-leave-to {
-  opacity: 0;
-  transform: scale(0.8);
-}
 
 .practice-select {
   background: white;
@@ -679,10 +611,6 @@ onUnmounted(() => {
 
 /* Responsive */
 @media (max-width: 1200px) {
-  .grid-8x4 {
-    grid-template-columns: repeat(6, 1fr);
-  }
-
   .equation-display {
     font-size: 1.3rem;
   }
@@ -695,11 +623,6 @@ onUnmounted(() => {
 }
 
 @media (max-width: 992px) {
-  .grid-8x4 {
-    grid-template-columns: repeat(5, 1fr);
-    gap: 6px;
-  }
-
   .equation-display {
     font-size: 1.1rem;
     gap: 3px;
@@ -718,11 +641,6 @@ onUnmounted(() => {
 }
 
 @media (max-width: 768px) {
-  .grid-8x4 {
-    grid-template-columns: repeat(4, 1fr);
-    gap: 5px;
-  }
-
   .equation-display {
     font-size: 0.95rem;
     gap: 2px;
@@ -755,11 +673,6 @@ onUnmounted(() => {
 }
 
 @media (max-width: 480px) {
-  .grid-8x4 {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 4px;
-  }
-
   .equation-display {
     font-size: 0.85rem;
     gap: 2px;
