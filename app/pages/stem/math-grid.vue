@@ -2,7 +2,6 @@
 import { ref, onMounted, onUnmounted, computed } from 'vue';
 
 const score = ref(0);
-const gridColumns = ref(8);
 const gridRows = ref(5);
 const grid = ref([]);
 const answers = ref({});
@@ -11,9 +10,38 @@ const gameWon = ref(false);
 
 // Settings
 const operationMode = ref('add'); // 'add', 'subtract', 'mix'
-const targetTotal = ref(10); // 10, 20, 30
 const solveFor = ref('first'); // 'first', 'second', 'sum'
 const practiceNumber = ref(null); // 1-10 or null for random
+
+// Single cycling sum mode: = 10 → = 20 → = 30 → < 10 → < 20 → < 30 → ...
+const SUM_MODES = [
+  { label: 'Sum = 10', exact: true,  target: 10 },
+  { label: 'Sum = 20', exact: true,  target: 20 },
+  { label: 'Sum = 30', exact: true,  target: 30 },
+  { label: 'Sum < 10', exact: false, target: 10 },
+  { label: 'Sum < 20', exact: false, target: 20 },
+  { label: 'Sum < 30', exact: false, target: 30 },
+];
+const sumModeIdx = ref(0);
+const sumMode    = computed(() => SUM_MODES[sumModeIdx.value]);
+const targetTotal = computed(() => sumMode.value.target);
+const exactSum    = computed(() => sumMode.value.exact);
+
+const cycleSumMode = () => {
+  sumModeIdx.value = (sumModeIdx.value + 1) % SUM_MODES.length;
+  resetGame();
+};
+
+// Fewer columns for larger targets so 2-digit numbers fit
+// Rows stay at 5 → totals: 8×5=40, 6×5=30, 5×5=25 (all clean rectangles)
+const gridColumns = computed(() => {
+  if (targetTotal.value >= 30) return 5;
+  if (targetTotal.value >= 20) return 6;
+  return 8;
+});
+
+const SOLVE_LABELS = { first: 'Missing: ?+b=s', second: 'Missing: a+?=s', sum: 'Missing: a+b=?' };
+const solveLabel = computed(() => SOLVE_LABELS[solveFor.value]);
 
 const cellStates = ref({}); // Track individual cell states: 'pending', 'correct', 'error'
 
@@ -21,66 +49,88 @@ const cellStates = ref({}); // Track individual cell states: 'pending', 'correct
 const totalCells = computed(() => gridColumns.value * gridRows.value);
 
 const generateEquation = () => {
+  const N = targetTotal.value;
+  const pNum = practiceNumber.value;
+  const isAdd = operationMode.value === 'add' || (operationMode.value === 'mix' && Math.random() > 0.5);
   let a, b, sum;
 
-  // If practicing a specific number, include it in the equation
-  if (practiceNumber.value !== null) {
-    const pNum = practiceNumber.value;
-    const isAddition = operationMode.value === 'add' || (operationMode.value === 'mix' && Math.random() > 0.5);
-
-    // Randomly choose where the practice number goes
-    const position = Math.floor(Math.random() * 3); // 0=first operand, 1=second operand, 2=result
-
-    if (isAddition) {
-      if (position === 0) {
-        // pNum + b = sum
-        a = pNum;
-        b = Math.floor(Math.random() * Math.min(10, targetTotal.value - pNum)) + 1;
-        sum = a + b;
-      } else if (position === 1) {
-        // a + pNum = sum
-        b = pNum;
-        a = Math.floor(Math.random() * Math.min(10, targetTotal.value - pNum)) + 1;
-        sum = a + b;
+  if (isAdd) {
+    if (exactSum.value) {
+      // Sum must equal N exactly.
+      // Practice #: pNum is one addend, the other fills to N.
+      // If pNum >= N it can't be an addend, so ignore it.
+      if (pNum !== null && pNum > 0 && pNum < N) {
+        if (Math.random() > 0.5) { a = pNum; b = N - pNum; }
+        else                      { b = pNum; a = N - pNum; }
       } else {
-        // a + b = pNum
-        sum = pNum;
-        a = Math.floor(Math.random() * Math.max(1, pNum - 1)) + 1;
-        b = pNum - a;
-        if (b <= 0) b = 1;
+        a = Math.floor(Math.random() * (N - 1)) + 1;
+        b = N - a;
       }
-      return { a, b, sum, op: '+' };
+      sum = N;
     } else {
-      if (position === 0) {
-        // pNum - b = sum
-        a = pNum;
-        b = Math.floor(Math.random() * Math.max(1, pNum - 1)) + 1;
-        sum = a - b;
-      } else if (position === 1) {
-        // a - pNum = sum
-        b = pNum;
-        a = pNum + Math.floor(Math.random() * 10) + 1;
-        sum = a - b;
+      // Sum ranges 2 to N inclusive.
+      if (pNum !== null) {
+        // pNum can be a, b, or the sum — whichever fits within N.
+        const position = Math.floor(Math.random() * 3);
+        if (position === 0 && pNum < N - 1) {
+          a = pNum;
+          b = Math.floor(Math.random() * (N - pNum - 1)) + 1; // sum stays < N
+        } else if (position === 1 && pNum < N - 1) {
+          b = pNum;
+          a = Math.floor(Math.random() * (N - pNum - 1)) + 1; // sum stays < N
+        } else {
+          // pNum IS the sum (or fallback when pNum >= N as addend)
+          sum = Math.min(pNum, N);
+          a = Math.floor(Math.random() * (sum - 1)) + 1;
+          b = sum - a;
+          return { a, b, sum, op: '+' };
+        }
       } else {
-        // a - b = pNum
-        sum = pNum;
-        a = pNum + Math.floor(Math.random() * 10) + 1;
-        b = a - pNum;
+        // sum must be strictly < N, so max sum = N-1
+        a = Math.floor(Math.random() * (N - 2)) + 1; // 1 to N-2
+        b = Math.floor(Math.random() * (N - a - 1)) + 1; // 1 to N-a-1
       }
-      return { a, b, sum, op: '-' };
+      sum = a + b;
     }
-  }
-
-  // Original random generation when no practice number selected
-  if (operationMode.value === 'add' || (operationMode.value === 'mix' && Math.random() > 0.5)) {
-    a = Math.floor(Math.random() * (targetTotal.value - 2)) + 1;
-    b = Math.floor(Math.random() * (targetTotal.value - a - 1)) + 1;
-    sum = a + b;
     return { a, b, sum, op: '+' };
+
   } else {
-    a = Math.floor(Math.random() * (targetTotal.value - 1)) + 1;
-    b = Math.floor(Math.random() * a) + 1;
-    sum = a - b;
+    if (exactSum.value) {
+      // Result must equal N: a - b = N.
+      // Practice #: pNum is b, so a = N + pNum.
+      if (pNum !== null && pNum > 0) {
+        b = pNum;
+        a = N + pNum;
+      } else {
+        b = Math.floor(Math.random() * N) + 1;
+        a = N + b;
+      }
+      sum = N;
+    } else {
+      // Result ranges 0 to N.
+      if (pNum !== null) {
+        const position = Math.floor(Math.random() * 3);
+        if (position === 0 && pNum <= N) {
+          // pNum - b = result
+          a = pNum;
+          b = Math.floor(Math.random() * pNum) + 1;
+        } else if (position === 1 && pNum < N) {
+          // a - pNum = result, a > pNum
+          b = pNum;
+          a = pNum + Math.floor(Math.random() * (N - pNum)) + 1;
+        } else {
+          // result = pNum: a - b = pNum
+          sum = pNum;
+          b = Math.floor(Math.random() * (N - pNum)) + 1;
+          a = pNum + b;
+          return { a, b, sum, op: '-' };
+        }
+      } else {
+        a = Math.floor(Math.random() * (N - 1)) + 1;
+        b = Math.floor(Math.random() * a) + 1;
+      }
+      sum = a - b;
+    }
     return { a, b, sum, op: '-' };
   }
 };
@@ -117,6 +167,27 @@ const generateGrid = () => {
   }
 };
 
+// Returns the next unsolved cell index in column-major order (down then across)
+const getNextUnsolvedIndex = (fromIndex) => {
+  const cols = gridColumns.value;
+  const rows = gridRows.value;
+  const total = totalCells.value;
+
+  let col = fromIndex % cols;
+  let row = Math.floor(fromIndex / cols);
+
+  for (let step = 1; step < total; step++) {
+    row++;
+    if (row >= rows) {
+      row = 0;
+      col = (col + 1) % cols;
+    }
+    const idx = row * cols + col;
+    if (!solved.value.has(`cell-${idx}`)) return idx;
+  }
+  return null;
+};
+
 const checkAnswer = (cellId) => {
   if (solved.value.has(cellId)) return;
 
@@ -130,15 +201,6 @@ const checkAnswer = (cellId) => {
     solved.value.add(cellId);
     answers.value[cellId] = cell.correctAnswer;
 
-    // Move suggested cell to the next row
-    if (cellId === suggestedCellId.value) {
-      const currentIndex = parseInt(cellId.split('-')[1], 10);
-      const nextIndex = currentIndex + gridColumns.value;
-      if (nextIndex < totalCells.value) {
-        suggestedCellId.value = `cell-${nextIndex}`;
-      }
-    }
-
     if (solved.value.size === totalCells.value) {
       gameWon.value = true;
       score.value += 10;
@@ -146,15 +208,16 @@ const checkAnswer = (cellId) => {
         setTimeout(generateGrid, 600);
       }, 2000);
     } else {
-      // Move focus to the cell below (next row)
-      setTimeout(() => {
-        const currentIndex = parseInt(cellId.split('-')[1], 10);
-        const nextIndex = currentIndex + gridColumns.value;
-        if (nextIndex < totalCells.value) {
+      // Advance suggested cell and focus in column-major order
+      const currentIndex = parseInt(cellId.split('-')[1], 10);
+      const nextIndex = getNextUnsolvedIndex(currentIndex);
+      if (nextIndex !== null) {
+        suggestedCellId.value = `cell-${nextIndex}`;
+        setTimeout(() => {
           const nextInput = document.querySelector(`input[data-cell="cell-${nextIndex}"]`);
           if (nextInput) nextInput.focus();
-        }
-      }, 200);
+        }, 200);
+      }
     }
   } else {
     cellStates.value[cellId] = 'error';
@@ -220,8 +283,8 @@ onUnmounted(() => {
     <nav class="row align-items-center flex-shrink-0 mb-3 px-2">
       <div class="col-4 d-flex align-items-center gap-2">
         <NuxtLink to="/stem" class="nav-btn-ios border-ios rounded-pill text-decoration-none text-center fw-bold shadow-sm">← Back</NuxtLink>
-        <button @click="targetTotal = (targetTotal === 10 ? 20 : targetTotal === 20 ? 30 : 10); resetGame()" class="nav-btn-target shadow-sm fw-bold">TARGET = {{ targetTotal }}</button>
-        <button @click="solveFor = (solveFor === 'first' ? 'second' : solveFor === 'second' ? 'sum' : 'first'); resetGame()" class="nav-btn-yellow shadow-sm fw-bold">Solve for ?</button>
+        <button @click="cycleSumMode" class="nav-btn-target shadow-sm fw-bold">{{ sumMode.label }}</button>
+        <button @click="solveFor = (solveFor === 'first' ? 'second' : solveFor === 'second' ? 'sum' : 'first'); resetGame()" class="nav-btn-yellow shadow-sm fw-bold">Missing</button>
       </div>
 
       <div class="col-4 d-flex justify-content-center gap-1">
@@ -248,7 +311,7 @@ onUnmounted(() => {
     <!-- Game Board -->
     <div class="flex-grow-1 d-flex align-items-center justify-content-center overflow-auto">
       <div class="math-grid-container">
-        <div class="row row-cols-8 g-2 w-100">
+        <div class="row g-2 w-100" :class="`row-cols-${gridColumns}`">
           <div v-for="cell in grid" :key="cell.id" class="col">
             <div class="grid-cell" :class="[cellStates[cell.id], { 'suggested-pulse-start': cell.id === suggestedCellId && !solved.has(cell.id) && suggestedCellId === 'cell-0', 'suggested-pulse-next': cell.id === suggestedCellId && !solved.has(cell.id) && suggestedCellId !== 'cell-0' }]">
             <div class="equation-box">
@@ -394,8 +457,12 @@ onUnmounted(() => {
 .math-grid-container .col {
   display: flex;
   align-items: stretch;
-  flex: 0 0 calc(12.5% - 2px);
 }
+
+/* Explicit column widths — row-cols-8 is not a built-in Bootstrap class */
+.math-grid-container .row-cols-8 .col { flex: 0 0 calc(100% / 8); max-width: calc(100% / 8); }
+.math-grid-container .row-cols-6 .col { flex: 0 0 calc(100% / 6); max-width: calc(100% / 6); }
+.math-grid-container .row-cols-5 .col { flex: 0 0 calc(100% / 5); max-width: calc(100% / 5); }
 
 .grid-cell {
   display: flex;

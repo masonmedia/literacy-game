@@ -79,6 +79,13 @@
           </NuxtLink>
         </div>
       </div>
+
+      <!-- Dashboard link -->
+      <div class="text-center mt-4">
+        <NuxtLink to="/dashboard" class="dashboard-link fw-bold text-decoration-none">
+          📊 Progress Dashboard
+        </NuxtLink>
+      </div>
     </div>
   </div>
 </template>
@@ -102,4 +109,7 @@
 
 .animate-slide-up { animation: slideUp 0.6s ease-out; }
 @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+.dashboard-link { color: #8E8E93; font-size: 1rem; }
+.dashboard-link:hover { color: #007AFF; }
 </style>
