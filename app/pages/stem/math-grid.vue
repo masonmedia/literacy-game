@@ -1,5 +1,6 @@
 <script setup>
 import { ref, onMounted, onUnmounted, computed } from 'vue';
+import YaBud from '~/components/YaBud.vue';
 
 const score = ref(0);
 const gridRows = ref(5);
@@ -44,6 +45,7 @@ const SOLVE_LABELS = { first: 'Missing: ?+b=s', second: 'Missing: a+?=s', sum: '
 const solveLabel = computed(() => SOLVE_LABELS[solveFor.value]);
 
 const cellStates = ref({}); // Track individual cell states: 'pending', 'correct', 'error'
+const inputTimers = ref({});
 
 // Compute total cells from current grid dimensions
 const totalCells = computed(() => gridColumns.value * gridRows.value);
@@ -141,10 +143,19 @@ const generateGrid = () => {
   solved.value = new Set();
   gameWon.value = false;
   cellStates.value = {};
+  inputTimers.value = {};
   suggestedCellId.value = 'cell-0';
 
+  const usedEquations = new Set();
+
   for (let i = 0; i < totalCells.value; i++) {
-    const eq = generateEquation();
+    let eq;
+    let attempts = 0;
+    do {
+      eq = generateEquation();
+      attempts++;
+    } while (usedEquations.has(`${eq.a}${eq.op}${eq.b}`) && attempts < 30);
+    usedEquations.add(`${eq.a}${eq.op}${eq.b}`);
     const cellId = `cell-${i}`;
 
     let display = {};
@@ -234,18 +245,27 @@ const handleInput = (cellId, value) => {
   // Only allow digits
   const sanitized = value.replace(/[^0-9]/g, '');
   answers.value[cellId] = sanitized;
-  // Auto-check when 2 digits entered or when it's a single digit number
-  if (sanitized.length > 0) {
-    const num = parseInt(sanitized, 10);
-    if (num >= 0 && num <= 99) {
-      setTimeout(() => checkAnswer(cellId), 200);
-    }
+
+  // Clear any pending check for this cell
+  if (inputTimers.value[cellId]) {
+    clearTimeout(inputTimers.value[cellId]);
+    inputTimers.value[cellId] = null;
   }
+
+  if (sanitized.length === 0) return;
+
+  // 2 digits → check quickly; 1 digit → wait in case user types a second digit
+  const delay = sanitized.length >= 2 ? 200 : 800;
+  inputTimers.value[cellId] = setTimeout(() => checkAnswer(cellId), delay);
 };
 
 
 const resetGame = () => {
   generateGrid();
+  setTimeout(() => {
+    const firstInput = document.querySelector('input[data-cell="cell-0"]');
+    if (firstInput) firstInput.focus();
+  }, 100);
 };
 
 const setPracticeNumber = (num) => {
@@ -304,7 +324,7 @@ onUnmounted(() => {
       </div>
 
       <div class="col-4 d-flex align-items-center justify-content-end gap-2">
-        <div class="score-pill shadow-sm">{{ score }} ⭐</div>
+        <button class="nav-btn-yellow shadow-sm fw-bold">{{ score }} ⭐</button>
       </div>
     </nav>
 
@@ -371,18 +391,12 @@ onUnmounted(() => {
       </div>
     </div>
 
+    <!-- Ya Bud! Success overlay -->
+    <YaBud :show="gameWon" />
   </div>
 </template>
 
 <style scoped>
-.ios-bg {
-  background-color: #F2F2F7;
-}
-
-.border-ios {
-  border: 4px solid #E5E5EA !important;
-}
-
 .nav-btn-ios {
   background: white;
   padding: 10px 20px;
@@ -427,15 +441,6 @@ onUnmounted(() => {
   border-radius: 50px;
   border: 4px solid white;
   cursor: pointer;
-}
-
-.score-pill {
-  background: #FFD60A;
-  color: #007AFF;
-  padding: 10px 20px;
-  border-radius: 50px;
-  font-weight: 900;
-  border: 4px solid white;
 }
 
 .math-grid-container {

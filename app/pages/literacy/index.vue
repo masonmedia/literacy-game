@@ -358,10 +358,6 @@ onMounted(() => {
   cursor: pointer;
 }
 
-.border-ios {
-  border: 4px solid #E5E5EA !important;
-}
-
 .ios-segmented-control {
   background: #D1D1D6;
   padding: 4px;
@@ -588,11 +584,6 @@ onMounted(() => {
 @keyframes fall {
   0% { transform: translateY(0) rotate(0deg); opacity: 1; }
   100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
-}
-
-@keyframes hop {
-  from { transform: rotate(-5deg) translateY(0); }
-  to { transform: rotate(-5deg) translateY(-25px); }
 }
 
 @keyframes arcToTarget {

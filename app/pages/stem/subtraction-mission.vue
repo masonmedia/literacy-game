@@ -16,14 +16,14 @@
       </div>
 
       <div class="col-4 d-flex align-items-center justify-content-end gap-2">
-        <div class="score-pill shadow-sm fw-black">{{ score }} ⭐</div>
+        <button class="nav-btn-yellow shadow-sm fw-bold">{{ score }} ⭐</button>
       </div>
     </nav>
 
     <div class="flex-grow-1 d-flex flex-column align-items-center justify-content-center gap-4">
       <div class="playmat-container border-ios shadow-lg p-3 bg-white rounded-5" :class="{ 'grid-fade': isResetting }">
         <div class="math-grid" :class="targetSum === 20 ? 'grid-20' : 'grid-10'">
-          <div v-for="i in targetSum" :key="i + '-' + currentObject" class="math-cell border-ios">
+          <div v-for="i in targetSum" :key="i + '-' + currentObject" class="math-cell border border-secondary border-2 border-opacity-10 bg-secondary bg-opacity-10">
             <Transition name="fade-out">
               <div v-if="i <= currentCount && !isCorrect" class="cell-content">
                 <span v-if="mode !== 'blocks'">{{ currentObject }}</span>
@@ -45,14 +45,14 @@
         <div class="eq-num">{{ targetSum }}</div>
         <div class="eq-op">-</div>
         
-        <div v-if="solveMode === 'variable'" class="eq-box border-ios" :class="{ 'filled-success': isCorrect, 'shake-error': isWrong }">
+        <div v-if="solveMode === 'variable'" class="eq-box border border-secondary border-2 border-opacity-10 bg-secondary bg-opacity-10" :class="{ 'filled-success': isCorrect, 'shake-error': isWrong }">
           {{ isCorrect ? missingCount : (isWrong ? wrongValue : '?') }}
         </div>
         <div v-else class="eq-num">{{ missingCount }}</div>
-        
+
         <div class="eq-op">=</div>
-        
-        <div v-if="solveMode === 'result'" class="eq-box border-ios" :class="{ 'filled-success': isCorrect, 'shake-error': isWrong }">
+
+        <div v-if="solveMode === 'result'" class="eq-box border border-secondary border-2 border-opacity-10 bg-secondary bg-opacity-10" :class="{ 'filled-success': isCorrect, 'shake-error': isWrong }">
           {{ isCorrect ? equationResult : (isWrong ? wrongValue : '?') }}
         </div>
         <div v-else class="eq-num">{{ equationResult }}</div>
@@ -62,7 +62,7 @@
         <div class="number-grid" :class="{ 'grid-large': targetSum === 20 }">
           <button v-for="n in (targetSum + 1)" :key="n-1" 
                   @click="checkAnswer(n-1)" 
-                  class="num-btn border-ios shadow-sm fw-black" 
+                  class="num-btn border border-secondary border-2 border-opacity-10 bg-secondary bg-opacity-10 shadow-sm fw-black"
                   :disabled="showSuccessOverlay || isResetting">
             {{ n - 1 }}
           </button>
@@ -170,16 +170,12 @@ onUnmounted(() => window.removeEventListener('keydown', handleKeyDown));
 </script>
 
 <style scoped>
-.ios-bg { background-color: #F2F2F7; }
-.fw-black { font-weight: 900; }
-.border-ios { border: 4px solid #E5E5EA !important; }
 .nav-btn-ios, .nav-btn-target, .nav-btn-yellow { border-radius: 50px; padding: 10px 20px; font-weight: 900; border: 4px solid white; cursor: pointer; }
 .nav-btn-ios { background: white; color: #007AFF; }
 .nav-btn-target { background: #007AFF; color: white; }
 .nav-btn-yellow { background: #FFD60A; color: #007AFF; }
 .mode-pill { border: 4px solid #E5E5EA; background: white; padding: 8px 15px; border-radius: 50px; font-weight: 900; color: #8E8E93; cursor: pointer; font-size: 0.8rem; }
 .mode-pill.active { border-color: #007AFF; color: #007AFF; background: #007AFF11; }
-.score-pill { background: #FFD60A; color: #007AFF; padding: 12px 25px; border-radius: 50px; border: 4px solid white; font-weight: 900; }
 .math-grid { display: grid; gap: 10px; }
 .grid-10 { grid-template-columns: repeat(5, 80px); }
 .grid-20 { grid-template-columns: repeat(10, 60px); }
@@ -205,5 +201,4 @@ onUnmounted(() => window.removeEventListener('keydown', handleKeyDown));
 .pill-ui-yellow { font-weight: 900; padding: 40px 60px; border-radius: 80px; border: 12px solid white; background: #FFD60A; color: #007AFF; font-size: 3.5rem; transform: rotate(-5deg); animation: hop 0.5s infinite alternate ease-in-out; }
 .thumbs-up-icon { font-size: 5rem; line-height: 1; margin-bottom: 10px; }
 .final-equation { font-size: 2rem; margin-top: 20px; box-shadow: none; }
-@keyframes hop { from { transform: rotate(-5deg) translateY(0); } to { transform: rotate(-5deg) translateY(-25px); } }
 </style>

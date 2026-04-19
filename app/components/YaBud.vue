@@ -83,11 +83,6 @@ watch(() => props.show, (val) => {
 
 .thumbs-up-icon { font-size: 5.5rem; line-height: 1; }
 
-@keyframes hop {
-  from { transform: rotate(-5deg) translateY(0); }
-  to   { transform: rotate(-5deg) translateY(-20px); }
-}
-
 /* Transition */
 .ios-pop-fade-enter-active { animation: pop-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
 .ios-pop-fade-leave-active { transition: opacity 0.3s, transform 0.3s; }

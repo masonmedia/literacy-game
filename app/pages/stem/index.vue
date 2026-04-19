@@ -938,9 +938,7 @@ onMounted(() => {
 </template>
 
 <style scoped>
-.fw-black { font-weight: 900; }
 .ls-wide { letter-spacing: 2px; }
-.border-ios { border: 4px solid #E5E5EA !important; }
 
 .nav-btn-ios { 
   background: white; 

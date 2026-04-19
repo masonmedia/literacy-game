@@ -90,7 +90,7 @@ onMounted(() => { mounted.value = true; generateTarget(); });
                 </div>
             </div>
             <div class="col-3 d-flex justify-content-end">
-                <div class="score-pill shadow-sm">{{ score }} ⭐</div>
+                <button class="nav-btn-yellow shadow-sm fw-bold">{{ score }} ⭐</button>
             </div>
         </nav>
 
@@ -343,7 +343,7 @@ onMounted(() => { mounted.value = true; generateTarget(); });
                 </div>
             </div>
             <div class="col-3 d-flex justify-content-end">
-                <div class="score-pill shadow-sm">{{ score }} ⭐</div>
+                <button class="nav-btn-yellow shadow-sm fw-bold">{{ score }} ⭐</button>
             </div>
         </nav>
 
@@ -592,7 +592,7 @@ onMounted(() => { mounted.value = true; generateTarget(); });
                 </div>
             </div>
             <div class="col-3 d-flex justify-content-end">
-                <div class="score-pill shadow-sm">{{ score }} ⭐</div>
+                <button class="nav-btn-yellow shadow-sm fw-bold">{{ score }} ⭐</button>
             </div>
         </nav>
 
@@ -613,7 +613,7 @@ onMounted(() => { mounted.value = true; generateTarget(); });
                 </div>
 
                 <div class="work-mat rounded-5 flex-grow-1 d-flex align-items-end justify-content-center p-5 gap-4 gap-md-5 position-relative overflow-hidden">
-                    
+
                     <div class="d-flex align-items-end gap-3">
                         <TransitionGroup name="rod">
                             <div v-for="(t, idx) in userTens" :key="t.id" class="ten-rod shadow-md"
@@ -665,14 +665,23 @@ onMounted(() => { mounted.value = true; generateTarget(); });
 .target-card.bump { transform: scale(1.1); border-color: #34C759; }
 .target-card .label { font-size: 0.8rem; font-weight: 900; color: #8E8E93; letter-spacing: 1.5px; }
 .target-card .number { font-size: 3rem; font-weight: 900; color: #007AFF; line-height: 1; }
-.score-pill { background: #FFD60A; color: #007AFF; padding: 12px 25px; border-radius: 50px; font-weight: 900; border: 4px solid white; }
+
+.nav-btn-yellow {
+  background: #FFD60A;
+  color: #007AFF;
+  padding: 10px 20px;
+  border-radius: 50px;
+  border: 4px solid white;
+  cursor: pointer;
+  font-weight: 700;
+}
 
 .work-mat { background: #D1D1D6; border: 5px dashed #AEAEB2; position: relative; }
 
 .floating-toolbox { position: absolute; top: 35px; left: 35px; z-index: 100; display: flex; flex-direction: column; gap: 20px; }
-.tool-btn-ios { 
-    background: white; border: 4px solid #E5E5EA; border-radius: 25px; 
-    padding: 25px 20px; display: flex; flex-direction: column; align-items: center; 
+.tool-btn-ios {
+    background: white; border: 4px solid #E5E5EA; border-radius: 25px;
+    padding: 25px 20px; display: flex; flex-direction: column; align-items: center;
     justify-content: center; min-width: 125px; transition: 0.2s;
 }
 .btn-label { font-size: 0.85rem; font-weight: 900; color: #007AFF; margin-top: 10px; }
@@ -714,9 +723,9 @@ onMounted(() => { mounted.value = true; generateTarget(); });
     width: clamp(30px, 6.5vw, 50px);
 }
 .ones-flex-grid {
-    display: flex; 
+    display: flex;
     flex-direction: column-reverse; /* Force vertical stack from bottom */
-    width: 100%; 
+    width: 100%;
     gap: 4px; /* Matches visual spacing of the rod segments */
 }
 
@@ -736,22 +745,23 @@ onMounted(() => { mounted.value = true; generateTarget(); });
 
 .status-overlay { position: fixed; inset: 0; z-index: 2500; display: flex; align-items: center; justify-content: center; pointer-events: none; }
 
-.pill-ui { 
-    font-weight: 900; padding: 25px 50px; border-radius: 60px; border: 10px solid white; 
+.pill-ui {
+    font-weight: 900; padding: 25px 50px; border-radius: 60px; border: 10px solid white;
     background: #FFD60A; color: #007AFF; font-size: 4rem;
     transform: rotate(-5deg);
-    animation: hop 0.5s infinite alternate ease-in-out;
+    animation: hop 1.2s infinite alternate ease-in-out;
 }
-
-@keyframes hop {
-    from { transform: rotate(-5deg) translateY(0); }
-    to { transform: rotate(-5deg) translateY(-20px); }
-}
-
-.confetti-holder { position: fixed; top: -50px; left: 0; width: 100%; height: 100vh; pointer-events: none; z-index: 1999; }
-.particle { position: absolute; border-radius: 3px; animation: fall linear forwards; }
-@keyframes fall { to { transform: translateY(110vh) translateX(var(--drift)) rotate(720deg); opacity: 0; } }
 
 .rod-enter-active, .cube-enter-active { animation: pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
 @keyframes pop { 0% { transform: scale(0.3); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+
+@keyframes hop {
+  0% { transform: translateY(0) rotate(-5deg); }
+  50% { transform: translateY(-18px) rotate(-5deg); }
+  100% { transform: translateY(0) rotate(-5deg); }
+}
+
+.confetti-holder { position: fixed; inset: 0; top: -50px; pointer-events: none; z-index: 1999; width: 100%; height: 120vh; }
+.particle { position: absolute; border-radius: 3px; animation: fall linear forwards; }
+@keyframes fall { 0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(110vh) translateX(var(--drift)) rotate(720deg); opacity: 0; } }
 </style>

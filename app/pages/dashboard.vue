@@ -175,8 +175,6 @@ const confirmClear = () => {
 
 <style scoped>
 .ios-bg { background-color: #F2F2F7; font-family: -apple-system, sans-serif; }
-.fw-black { font-weight: 900; }
-.border-ios { border: 4px solid #E5E5EA !important; }
 
 .nav-btn-ios {
   background: white; border-radius: 50px; padding: 10px 20px;

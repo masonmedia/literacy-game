@@ -11,7 +11,7 @@
         </div>
       </div>
       <div class="col-3 d-flex justify-content-end">
-        <div class="score-pill shadow-sm">{{ score }} ⭐</div>
+        <button class="nav-btn-yellow shadow-sm fw-bold">{{ score }} ⭐</button>
       </div>
     </nav>
 
@@ -188,6 +188,7 @@ onUnmounted(() => window.removeEventListener('keydown', handleKeydown));
 <style scoped>
 .ios-bg { background-color: #F2F2F7; }
 .nav-btn-ios { background: white; padding: 12px 25px; border-radius: 15px; color: #007AFF; font-weight: 700; border: none; }
+.nav-btn-yellow { background: #FFD60A; color: #007AFF; padding: 10px 20px; border-radius: 50px; border: 4px solid white; cursor: pointer; }
 .target-card-ios { background: white; border-radius: 20px; border: 4px solid #007AFF; display: flex; align-items: center; }
 .label { font-size: 0.75rem; font-weight: 900; color: #8E8E93; letter-spacing: 1.5px; }
 .score-pill { background: #FFD60A; color: #007AFF; padding: 12px 25px; border-radius: 50px; font-weight: 900; border: 4px solid white; }
@@ -250,7 +251,7 @@ onUnmounted(() => window.removeEventListener('keydown', handleKeydown));
         </div>
       </div>
       <div class="col-3 d-flex justify-content-end">
-        <div class="score-pill shadow-sm">{{ score }} ⭐</div>
+        <button class="nav-btn-yellow shadow-sm fw-bold">{{ score }} ⭐</button>
       </div>
     </nav>
 
@@ -535,7 +536,7 @@ onUnmounted(() => window.removeEventListener('keydown', handleKeydown));
                 </div>
             </div>
             <div class="col-3 d-flex justify-content-end">
-                <div class="score-pill shadow-sm">{{ score }} ⭐</div>
+                <button class="nav-btn-yellow shadow-sm fw-bold">{{ score }} ⭐</button>
             </div>
         </nav>
 
@@ -755,10 +756,6 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.ios-bg {
-    background-color: #F2F2F7;
-}
-
 .nav-btn-ios {
     background: white;
     border-radius: 15px;
@@ -766,23 +763,6 @@ onMounted(() => {
     border: none;
     padding: 12px 25px;
     color: #007AFF;
-}
-
-.border-ios {
-    border: 4px solid #E5E5EA !important;
-}
-
-.fw-black {
-    font-weight: 900;
-}
-
-.score-pill {
-    background: #FFD60A;
-    color: #007AFF;
-    padding: 12px 25px;
-    border-radius: 50px;
-    font-weight: 900;
-    border: 4px solid white;
 }
 
 .board-inner {
@@ -945,7 +925,7 @@ onMounted(() => {
     background: #FFD60A;
     color: #007AFF;
     font-size: 3.5rem;
-    transform: rotate(-3deg);
+    transform: rotate(-5deg);
     animation: hop 0.5s infinite alternate ease-in-out;
 }
 
@@ -964,35 +944,5 @@ onMounted(() => {
     margin: 10px 0 0;
 }
 
-@keyframes hop {
-    from {
-        transform: rotate(-3deg) translateY(0);
-    }
 
-    to {
-        transform: rotate(-3deg) translateY(-15px);
-    }
-}
-
-.confetti-holder {
-    position: fixed;
-    top: -50px;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    pointer-events: none;
-    z-index: 2999;
-}
-
-.particle {
-    position: absolute;
-    border-radius: 3px;
-    animation: fall linear forwards;
-}
-
-@keyframes fall {
-    to {
-        transform: translateY(110vh) translateX(var(--drift)) rotate(720deg);
-        opacity: 0;
-    }
-}</style>
+</style>

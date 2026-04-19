@@ -15,7 +15,7 @@
         </div>
       </div>
       <div class="col-3 d-flex justify-content-end">
-        <div class="score-pill shadow-sm">{{ score }} ⭐</div>
+        <button class="nav-btn-yellow shadow-sm fw-bold">{{ score }} ⭐</button>
       </div>
     </nav>
 
@@ -130,6 +130,7 @@ onMounted(generateMission);
 .fw-black { font-weight: 900; }
 .border-ios { border: 4px solid #E5E5EA !important; }
 .nav-btn-ios { background: white; border-radius: 15px; font-weight: 700; border: none; padding: 10px 20px; color: #007AFF; }
+.nav-btn-yellow { background: #FFD60A; color: #007AFF; padding: 10px 20px; border-radius: 50px; border: 4px solid white; cursor: pointer; }
 .score-pill { background: #FFD60A; color: #007AFF; padding: 12px 25px; border-radius: 50px; font-weight: 900; border: 4px solid white; }
 
 /* 10-Frame Styling */
@@ -238,7 +239,7 @@ onMounted(generateMission);
         <button @click="setMode('stem')" class="mode-pill" :class="{ active: mode === 'stem' }">BLOCKS</button>
       </div>
       <div class="col-3 d-flex justify-content-end text-end">
-        <div class="score-pill shadow-sm">{{ score }} ⭐</div>
+        <button class="nav-btn-yellow shadow-sm fw-bold">{{ score }} ⭐</button>
       </div>
     </nav>
 
@@ -488,7 +489,7 @@ onUnmounted(() => window.removeEventListener('keydown', handleKeyDown));
         <button @click="setMode('stem')" class="mode-pill" :class="{ active: mode === 'stem' }">BLOCKS</button>
       </div>
       <div class="col-3 d-flex justify-content-end text-end">
-        <div class="score-pill shadow-sm">{{ score }} ⭐</div>
+        <button class="nav-btn-yellow shadow-sm fw-bold">{{ score }} ⭐</button>
       </div>
     </nav>
 
@@ -747,7 +748,7 @@ onUnmounted(() => window.removeEventListener('keydown', handleKeyDown));
                 <button @click="setMode('stem')" class="mode-pill" :class="{ active: mode === 'stem' }">BLOCKS</button>
             </div>
             <div class="col-3 d-flex justify-content-end text-end">
-                <div class="score-pill shadow-sm">{{ score }} ⭐</div>
+                <button class="nav-btn-yellow shadow-sm fw-bold">{{ score }} ⭐</button>
             </div>
         </nav>
 
@@ -1235,7 +1236,7 @@ onUnmounted(() => window.removeEventListener('keydown', handleKeyDown));
                     <button @click="setOperator('+')" class="op-btn-white d-flex justify-content-center align-items-center" :class="{ active: operator === '+' }">+</button>
                     <button @click="setOperator('-')" class="op-btn-white d-flex justify-content-center align-items-center" :class="{ active: operator === '-' }">-</button>
                 </div>
-                <div class="score-pill shadow-sm fw-black">{{ score }} ⭐</div>
+                <button class="nav-btn-yellow shadow-sm fw-bold">{{ score }} ⭐</button>
             </div>
         </nav>
 
@@ -1243,8 +1244,8 @@ onUnmounted(() => window.removeEventListener('keydown', handleKeyDown));
 
             <div class="playmat-container border-ios shadow-lg p-3 bg-white rounded-5" :class="{ 'grid-fade': isResetting }">
                 <div class="math-grid" :class="targetSum === 20 ? 'grid-20' : 'grid-10'">
-                    <div v-for="i in targetSum" :key="i + '-' + currentObject" class="math-cell border-ios">
-                        
+                    <div v-for="i in targetSum" :key="i + '-' + currentObject" class="math-cell border border-secondary border-2 border-opacity-10 bg-secondary bg-opacity-10">
+
                         <template v-if="operator === '+'">
                             <div v-if="i <= currentCount" class="cell-content">
                                 <span v-if="mode !== 'stem'">{{ currentObject }}</span>
@@ -1280,14 +1281,14 @@ onUnmounted(() => window.removeEventListener('keydown', handleKeyDown));
                 <div class="eq-num">{{ operator === '+' ? currentCount : targetSum }}</div>
                 <div class="eq-op">{{ operator }}</div>
                 
-                <div v-if="solveMode === 'variable'" class="eq-box border-ios" :class="{ 'filled-success': isCorrect, 'shake-error': isWrong }">
+                <div v-if="solveMode === 'variable'" class="eq-box border border-secondary border-2 border-opacity-10 bg-secondary bg-opacity-10" :class="{ 'filled-success': isCorrect, 'shake-error': isWrong }">
                     {{ isCorrect ? missingCount : (isWrong ? wrongValue : '?') }}
                 </div>
                 <div v-else class="eq-num">{{ missingCount }}</div>
-                
+
                 <div class="eq-op">=</div>
-                
-                <div v-if="solveMode === 'result'" class="eq-box border-ios" :class="{ 'filled-success': isCorrect, 'shake-error': isWrong }">
+
+                <div v-if="solveMode === 'result'" class="eq-box border border-secondary border-2 border-opacity-10 bg-secondary bg-opacity-10" :class="{ 'filled-success': isCorrect, 'shake-error': isWrong }">
                     {{ isCorrect ? equationResult : (isWrong ? wrongValue : '?') }}
                 </div>
                 <div v-else class="eq-num">{{ equationResult }}</div>
@@ -1296,7 +1297,7 @@ onUnmounted(() => window.removeEventListener('keydown', handleKeyDown));
             <div class="number-grid-container p-3">
                 <div class="number-grid" :class="{ 'grid-large': targetSum === 20 }">
                     <button v-for="n in (targetSum + 1)" :key="n - 1" @click="checkAnswer(n - 1)"
-                        class="num-btn border-ios shadow-sm fw-black" :disabled="showSuccessOverlay || isResetting">
+                        class="num-btn border border-secondary border-2 border-opacity-10 bg-secondary bg-opacity-10 shadow-sm fw-black" :disabled="showSuccessOverlay || isResetting">
                         {{ n - 1 }}
                     </button>
                 </div>
@@ -1418,10 +1419,6 @@ onUnmounted(() => window.removeEventListener('keydown', handleKeyDown));
 </script>
 
 <style scoped>
-.ios-bg { background-color: #F2F2F7; }
-.fw-black { font-weight: 900; }
-.border-ios { border: 4px solid #E5E5EA !important; }
-
 .nav-btn-ios, .nav-btn-target, .nav-btn-yellow { border-radius: 50px; padding: 10px 20px; font-weight: 900; border: 4px solid white; cursor: pointer; }
 .nav-btn-ios { background: white; color: #007AFF; }
 .nav-btn-target { background: #007AFF; color: white; }
@@ -1433,8 +1430,6 @@ onUnmounted(() => window.removeEventListener('keydown', handleKeyDown));
 .op-selector-blue { background: #007AFF; height: 55px; border: 4px solid white; }
 .op-btn-white { width: 42px; height: 42px; border: none; background: rgba(255,255,255,0.2); font-size: 1.8rem; font-weight: 900; color: white; border-radius: 50%; cursor: pointer; }
 .op-btn-white.active { background: white; color: #007AFF; }
-
-.score-pill { background: #FFD60A; color: #007AFF; padding: 12px 25px; border-radius: 50px; border: 4px solid white; font-weight: 900; }
 
 .math-grid { display: grid; gap: 10px; }
 .grid-10 { grid-template-columns: repeat(5, 80px); }
@@ -1460,12 +1455,6 @@ onUnmounted(() => window.removeEventListener('keydown', handleKeyDown));
 .pill-ui-yellow { font-weight: 900; padding: 20px 50px; border-radius: 60px; border: 10px solid white; background: #FFD60A; color: #007AFF; font-size: 3rem; transform: rotate(-5deg); animation: hop 0.5s infinite alternate ease-in-out; }
 .thumbs-up-icon { font-size: 5.5rem; line-height: 1; }
 .move-badge { font-size: 1.8rem; margin-top: 15px; } /* Removed shadow via class logic */
-
-@keyframes hop { from { transform: rotate(-5deg) translateY(0); } to { transform: rotate(-5deg) translateY(-20px); } }
-
-.confetti-holder { position: fixed; inset: 0; pointer-events: none; z-index: 2999; }
-.particle { position: absolute; border-radius: 3px; animation: fall linear forwards; }
-@keyframes fall { to { transform: translateY(110vh) translateX(var(--drift)) rotate(720deg); opacity: 0; } }
 
 .pop-enter-active { animation: pop-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
 @keyframes pop-in { 0% { transform: scale(0); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }

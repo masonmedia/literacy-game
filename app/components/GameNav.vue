@@ -30,9 +30,6 @@ defineProps({
 </script>
 
 <style scoped>
-.border-ios { border: 4px solid #E5E5EA !important; }
-.fw-black   { font-weight: 900; }
-
 .nav-btn-ios {
   background: white;
   border-radius: 50px;
@@ -43,12 +40,4 @@ defineProps({
   white-space: nowrap;
 }
 
-.score-pill {
-  background: #FFD60A;
-  color: #007AFF;
-  padding: 12px 25px;
-  border-radius: 50px;
-  border: 4px solid white;
-  white-space: nowrap;
-}
 </style>
